@@ -1,9 +1,11 @@
 // 用户信息模块
+import ACCESS_ENUM from "@/access/accessEnum";
+import { UserControllerService } from "@/api";
 
 // 存储状态信息
 const state = () => ({
   loginUser: {
-    username: "华格纳齐",
+    userName: "未登录",
   },
 });
 
@@ -12,8 +14,25 @@ const getters = {};
 
 // 可以执行异步操作，调用 mutations 更新状态变量
 const actions = {
-  getLoginUser({ commit }: any, payload: string) {
-    commit("updateUser", { username: payload, role: "admin" });
+  /**
+   * 获取当前登录用户信息
+   * @param commit
+   * @param state
+   * @param payload
+   */
+  async getLoginUser({ commit, state }: any, payload: any) {
+    // 获取当前登录用户信息
+    const loginUser = await UserControllerService.getLoginUserUsingGet();
+    if (loginUser?.code === 0) {
+      // 成功
+      commit("updateUser", loginUser?.data);
+    } else {
+      // 失败
+      commit("updateUser", {
+        ...state.loginUser,
+        userRole: ACCESS_ENUM.NOT_LOGIN,
+      });
+    }
   },
 };
 

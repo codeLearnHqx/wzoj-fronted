@@ -1,5 +1,5 @@
 <template>
-  <a-row id="menu" style="margin-bottom: 16px" align="center">
+  <a-row id="menu" align="center">
     <a-col flex="auto">
       <a-menu
         mode="horizontal"
@@ -16,25 +16,45 @@
             <span class="title">WZ OJ</span>
           </div>
         </a-menu-item>
-        <a-menu-item v-for="item in menuRoutes" :key="item.path"
+        <a-menu-item v-for="item in visibleRoutes" :key="item.path"
           >{{ item.name }}
         </a-menu-item>
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div>{{ store.state.user.loginUser.username }}</div>
+      <div>{{ username }}</div>
     </a-col>
   </a-row>
 </template>
 <script setup lang="ts">
 import menuRoutes from "@/router/menuRoutes";
 import { useRoute, useRouter } from "vue-router";
-import { ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useStore } from "vuex";
+import checkAccess from "@/access/checkAccess";
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 const selectKey = ref(["/"]);
+
+// 根据用户权限过滤路由
+// 使用计算属性，响应式改变 visibleRoutes
+const visibleRoutes = computed(() => {
+  return menuRoutes[0]?.children?.filter((route) => {
+    if (
+      !checkAccess(store.state.user.loginUser, route.meta?.access as string)
+    ) {
+      return false;
+    }
+    return true;
+  });
+});
+
+const username = computed(() => {
+  return store.state.user.loginUser.userName;
+});
+
 // 路由跳转时，高亮选中菜单项
 watchEffect(() => {
   selectKey.value = [route.path];
@@ -43,14 +63,6 @@ watchEffect(() => {
 const doMenuClick = (key: string) => {
   router.push(key);
 };
-
-/* 测试 vuex */
-const store = useStore();
-console.log(store.state.user.loginUser);
-setTimeout(() => {
-  // 修改vuex 中的用户状态信息
-  store.dispatch("user/getLoginUser", "花姑娘");
-}, 5000);
 </script>
 
 <style scoped>

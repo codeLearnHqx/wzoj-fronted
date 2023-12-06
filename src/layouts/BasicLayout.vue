@@ -2,21 +2,24 @@
   <div id="basicLayout">
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <header-menu />
+        <layout-header />
       </a-layout-header>
       <a-layout-content class="content">
+        <!--      header菜单路由  -->
         <router-view />
       </a-layout-content>
-      <a-layout-footer class="footer">Oj判题系统 by 稳住心态</a-layout-footer>
+      <a-layout-footer>
+        <global-footer />
+      </a-layout-footer>
     </a-layout>
   </div>
 </template>
 <script setup lang="ts">
-import headerMenu from "@/layouts/BasicLayoutHeader.vue";
+import LayoutHeader from "@/layouts/BasicLayoutHeader.vue";
+import GlobalFooter from "@/components/footer/GlobalFooter.vue";
 </script>
 <style scoped>
 #basicLayout {
-  margin-bottom: 16px;
 }
 
 #basicLayout .header {
@@ -26,11 +29,5 @@ import headerMenu from "@/layouts/BasicLayoutHeader.vue";
 
 #basicLayout .content {
   background: linear-gradient(to right, #bbb, #fff);
-}
-
-#basicLayout .footer {
-  background: #efefef;
-  padding: 16px;
-  text-align: center;
 }
 </style>
