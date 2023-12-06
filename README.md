@@ -1,24 +1,3 @@
-# wzoj-fronted
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 配置如下
++ 使用了 arco design 组件库（目前使用的时完整引入，优化时按需引入）
++ 使用 vuex 来管理全局状态信息
