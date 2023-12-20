@@ -22,7 +22,7 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div>{{ username }}</div>
+      <div>{{ username || "无昵称" }}</div>
     </a-col>
   </a-row>
 </template>
@@ -43,7 +43,8 @@ const selectKey = ref(["/"]);
 const visibleRoutes = computed(() => {
   return menuRoutes[0]?.children?.filter((route) => {
     if (
-      !checkAccess(store.state.user.loginUser, route.meta?.access as string)
+      !checkAccess(store.state.user.loginUser, route.meta?.access as string) ||
+      route?.meta?.show === false
     ) {
       return false;
     }

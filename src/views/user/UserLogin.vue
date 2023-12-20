@@ -19,18 +19,35 @@
               size="large"
             >
               <a-form-item field="name" label="账号">
-                <a-input v-model="form.userAccount" placeholder="请输入账号" />
+                <a-input
+                  v-model.trim="form.userAccount"
+                  placeholder="请输入账号"
+                />
               </a-form-item>
               <a-form-item field="post" label="密码">
-                <a-input v-model="form.userPassword" placeholder="请输入密码" />
+                <a-input-password
+                  v-model.trim="form.userPassword"
+                  placeholder="请输入密码"
+                  allow-clear
+                />
               </a-form-item>
               <a-form-item no-style>
                 <a-button
+                  style="margin-top: 10px"
                   type="primary"
                   html-type="submit"
                   :loading="btnLoading"
                   long
                   >登录
+                </a-button>
+              </a-form-item>
+              <a-form-item no-style>
+                <a-button
+                  @click="goRegister"
+                  style="margin-top: 5px"
+                  type="outline"
+                  long
+                  >注册
                 </a-button>
               </a-form-item>
             </a-form>
@@ -68,10 +85,9 @@ const handleSubmit = async () => {
       message.success("登录成功");
       btnLoading.value = false;
       // 跳转到主页
-      await router.push({
-        path: "/",
-        replace: true,
-      });
+      setTimeout(() => {
+        window.location.href = "/main/home";
+      }, 1000);
     } else {
       message.error("登录失败，" + res?.message);
       btnLoading.value = false;
@@ -80,6 +96,12 @@ const handleSubmit = async () => {
     console.log(e);
     btnLoading.value = false;
   }
+};
+
+const goRegister = () => {
+  router.push({
+    path: "/user/register",
+  });
 };
 </script>
 

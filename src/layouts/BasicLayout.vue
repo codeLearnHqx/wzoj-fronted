@@ -28,6 +28,6 @@ import GlobalFooter from "@/components/footer/GlobalFooter.vue";
 }
 
 #basicLayout .content {
-  background: linear-gradient(to right, #bbb, #fff);
+  background: linear-gradient(to right, #fefefe, #fff);
 }
 </style>
