@@ -115,6 +115,7 @@ import {
 } from "@/api";
 import message from "@arco-design/web-vue/es/message";
 import { RouteLocation, useRoute } from "vue-router";
+import router from "@/router";
 
 const route: RouteLocation = useRoute();
 const questionInfo = ref();
@@ -212,6 +213,7 @@ const doSubmit = async () => {
       await QuestionControllerService.updateQuestionUsingPost(form.value);
     if (res.code === 0) {
       message.success("更新题目成功");
+      await router.push("/main/question/manager");
     } else {
       message.error("更新失败，" + res.message);
     }
